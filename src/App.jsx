@@ -21,9 +21,9 @@ function App() {
     arrText = arrText.map(word=>{
       if(word[0] !== "#" && word[0] !== '') {
         textWasChanged = true;
-        return "#" + word.split('').filter(letter=>letter==='.' ? false : true).join('');
+        return "#" + word.split('').filter(letter=>letter!=='.').join('');
       } else {
-        return word.split('').filter(letter=>letter==='.' ? false : true).join('');
+        return word.split('').filter(letter=>letter!=='.').join('');
       };
     })
 
