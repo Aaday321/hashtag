@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [ count, setCount ] = useState(0);
   const [ text, setText ] = useState("#");
 
   function formatter(){
@@ -12,37 +9,58 @@ function App() {
   }
 
   useEffect(()=>{
-    const arrText = text.split(' ');
+    let arrText = text.split(' ');
     let textWasChanged = false;
     let newText = "";
-    
-    if( arrText[arrText.length-1] === '' ) return;
-
-    for(let i of arrText){
-      if(i[0] !== "#" || i[0] !== " "){
-        i = "#" + i;
+    arrText = arrText.map(word=>{
+      if(word[0] !== "#" && word[0] !== '') {
         textWasChanged = true;
-      }
-    }
+        return "#" + word;
+      } else {
+        return word;
+      };
+    })
 
-    newText = arrText.join('');
+    arrText = arrText.map(word=>{
+      let newWord = '';
+      for(let i of word){
+        if(i !== '.') newWord += i;
+      }
+      return newWord;
+    })
+
+    arrText = arrText.filter((word, index)=>{
+      if(word === '#' && index !== arrText.length-1) return false;
+      else return true;
+    })
+
+    console.log(arrText);
+
+    newText = arrText.join(' ');
 
     if(textWasChanged) setText(newText);
   },[text])
 
+  const divStyle = {
+    backgroundColor:'#1a1a1a', width:'100vw', height:'100vh', display:'flex', alignItems:'center', 
+    justifyContent:'center'
+  }
+
   return (
-    <div className="App">
-      <input type="text" value={text} onChange={e=>{
-        let newText = e.target.value;
-        if( newText[ newText.length - 1 ] === "#" ){
-          if( newText[ newText.length - 2 ] !== " " ){
-            newText = newText.slice( 0, newText.length - 2 ) + " " + "#";
-          }
+    <div className = "App" style={divStyle}>
+      <input type="text" value={text} onKeyDown={
+        (e)=>{
+          const validCharacters = 'abcdefghijklmnopqrstuvwxyz '.split('');
+          let newText = e.target.value;
+          if(e.key === 'Backspace'){
+            setText(newText.slice(0, -1));
+          }else if (validCharacters.includes(e.key.toLowerCase())) setText(c=>c+e.key);
+          e.preventDefault();
         }
-        setText(newText);
-      }}/>
+      }
+      onChange={ e=>setText(e.target.value) }
+      style={{maxWidth:'80%', height:'5%', borderRadius:'45px', fontSize:'25px', padding:'1rem 2rem', outline:'none', border: 'none'}}/>
     </div>
-      
   )
 }
 
