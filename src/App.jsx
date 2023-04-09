@@ -4,8 +4,14 @@ import './App.css'
 function App() {
   const [ text, setText ] = useState("#");
 
-  function formatter(){
-    
+  function handleKeyDown(e){
+    const validCharacters = 'abcdefghijklmnopqrstuvwxyz1234567890 '.split('');
+    let newText = e.target.value;
+    if(e.key === 'Backspace'){
+      if(newText[newText.length - 1] === '#') setText(newText.slice(0, -2));
+      else setText(newText.slice(0, -1));
+    }else if (validCharacters.includes(e.key.toLowerCase())) setText(c=>c+e.key);
+    e.preventDefault();
   }
 
   useEffect(()=>{
@@ -15,26 +21,16 @@ function App() {
     arrText = arrText.map(word=>{
       if(word[0] !== "#" && word[0] !== '') {
         textWasChanged = true;
-        return "#" + word;
+        return "#" + word.split('').filter(letter=>letter==='.' ? false : true).join('');
       } else {
-        return word;
+        return word.split('').filter(letter=>letter==='.' ? false : true).join('');
       };
-    })
-
-    arrText = arrText.map(word=>{
-      let newWord = '';
-      for(let i of word){
-        if(i !== '.') newWord += i;
-      }
-      return newWord;
     })
 
     arrText = arrText.filter((word, index)=>{
       if(word === '#' && index !== arrText.length-1) return false;
       else return true;
     })
-
-    console.log(arrText);
 
     newText = arrText.join(' ');
 
@@ -43,24 +39,17 @@ function App() {
 
   const divStyle = {
     backgroundColor:'#1a1a1a', width:'100vw', height:'100vh', display:'flex', alignItems:'center', 
-    justifyContent:'center'
-  }
+    justifyContent:'center', overflowX: 'hidden', flexDirection: 'column'
+  };
+
+  const inputStyle = { width:'70%' ,maxWidth:'80%', height:'5%', borderRadius:'45px', fontSize:'25px', padding:'1rem 2rem', outline:'none', border: 'none'};
 
   return (
-    <div className = "App" style={divStyle}>
-      <input type="text" value={text} onKeyDown={
-        (e)=>{
-          const validCharacters = 'abcdefghijklmnopqrstuvwxyz '.split('');
-          let newText = e.target.value;
-          if(e.key === 'Backspace'){
-            if(newText[newText.length - 1] === '#') setText(newText.slice(0, -2));
-            else setText(newText.slice(0, -1));
-          }else if (validCharacters.includes(e.key.toLowerCase())) setText(c=>c+e.key);
-          e.preventDefault();
-        }
-      }
+    <div className = "App" style={ divStyle }>
+      <h1>{"HASHDAT 🤟🏿"}</h1>
+      <input type="text" value={ text } onKeyDown={ e=>handleKeyDown(e) }
       onChange={ e=>setText(e.target.value) }
-      style={{ width:'80%' ,maxWidth:'80%', height:'5%', borderRadius:'45px', fontSize:'25px', padding:'1rem 2rem', outline:'none', border: 'none'}}/>
+      style={inputStyle}/>
     </div>
   )
 }
