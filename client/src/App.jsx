@@ -53,7 +53,8 @@ function App() {
           const validCharacters = 'abcdefghijklmnopqrstuvwxyz '.split('');
           let newText = e.target.value;
           if(e.key === 'Backspace'){
-            setText(newText.slice(0, -1));
+            if(newText[newText.length - 1] === '#') setText(newText.slice(0, -2));
+            else setText(newText.slice(0, -1));
           }else if (validCharacters.includes(e.key.toLowerCase())) setText(c=>c+e.key);
           e.preventDefault();
         }
