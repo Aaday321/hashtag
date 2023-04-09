@@ -10,7 +10,7 @@ function App() {
     if(e.key === 'Backspace'){
       if(newText[newText.length - 1] === '#') setText(newText.slice(0, -2));
       else setText(newText.slice(0, -1));
-    }else if (validCharacters.includes(e.key.toLowerCase())) setText(c=>c+e.key);
+    }else if (validCharacters.includes(e.key.toLowerCase())) setText(c=>c.slice(0,e.target.selectionStart) + e.key + c.slice(e.target.selectionStart));
     e.preventDefault();
   }
 
@@ -42,11 +42,11 @@ function App() {
     justifyContent:'center', overflowX: 'hidden', flexDirection: 'column'
   };
 
-  const inputStyle = { width:'70%' ,maxWidth:'80%', height:'5%', borderRadius:'45px', fontSize:'25px', padding:'1rem 2rem', outline:'none', border: 'none'};
+  const inputStyle = { width:'70%' ,maxWidth:'80%', height:'2%', borderRadius:'45px', fontSize:'14px', padding:'1rem 2rem', outline:'none', border: 'none'};
 
   return (
     <div className = "App" style={ divStyle }>
-      <h1>{"HASHDAT 🤟🏿"}</h1>
+      <h1 style={{fontSize:30}}>{"HASHDAT🤟🏿"}</h1>
       <input type="text" value={ text } onKeyDown={ e=>handleKeyDown(e) }
       onChange={ e=>setText(e.target.value) }
       style={inputStyle}/>
