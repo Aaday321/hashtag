@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div className = "App" style={ divStyle }>
-      <h1 style={{fontSize:30}}>{"HASHDAT🤟🏿"}</h1>
+      <h1 style={{fontSize:30, color:'white'}}>{"HASHDAT🤟🏿"}</h1>
       <input type="text" value={ text } onKeyDown={ e=>handleKeyDown(e) }
       onChange={ e=>setText(e.target.value) }
       style={inputStyle}/>
